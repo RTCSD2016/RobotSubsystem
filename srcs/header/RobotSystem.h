@@ -1,11 +1,12 @@
 #pragma once
-#ifndef SUB_ROBIT_SYSTEM_H
-#define SUB_ROBOT_SYSTEM_H
+
+#ifndef ROBITSYSTEM_H
+#define ROBOTSYSTEM_H
+
 namespace IceHockeyGame
 {
 	class RobotSystem
-	{
-	
+	{	
 	private:
 		double position_x;             //机械手x坐标
 		double position_y;             //机械手y坐标
@@ -28,4 +29,4 @@ namespace IceHockeyGame
 		
 	};
 }
-#endif //SUB_ROBOT_SYSTEM_H
+#endif //ROBOTSYSTEM_H

@@ -1,11 +1,14 @@
 #pragma once
-#ifndef SUB_ROBIT_SYSTEM_ROBIT_Trajectory_Plan_H
-#define SUB_ROBIT_SYSTEM_ROBIT_Trajectory_Plan_H
-#include"Robot.h"
+
+#ifndef ROBITSYSTEM_ROBOTCOMMAND_TRAJECTORY_PLAN_H
+#define ROBITSYSTEM_ROBOTCOMMAND_TRAJECTORY_PLAN_H
+
+#include"RobotCommand.h"
+
 namespace IceHockeyGame{
-	namespace SubRobotSystem{
+	namespace RobotSubsystem{
 		namespace Robot{
-			class TrajectoryPlan :public Robot
+			class TrajectoryPlan :public RobotCommand
 			{
 			public:
 				double GetPosition(void);
@@ -14,4 +17,4 @@ namespace IceHockeyGame{
 		}
 	}
 }
-#endif //SUB_ROBIT_SYSTEM_ROBIT_Trajectory_Plan_H
+#endif //ROBITSYSTEM_ROBOTCOMMAND_TRAJECTORY_PLAN_H
