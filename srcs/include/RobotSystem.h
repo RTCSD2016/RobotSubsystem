@@ -32,7 +32,7 @@ namespace IceHockeyGame
 		*/
 		virtual double GetPositionX(void)=0;
 		/**
-		*@return robot hand velocoty
+		*@return robot hand velocity
 		*/
 		virtual double GetVelocityX(void)=0;
 		/**
@@ -40,7 +40,7 @@ namespace IceHockeyGame
 		*/
 		virtual double GetPositionY(void)=0;
 		/**
-		*@return robot hand velocoty
+		*@return robot hand velocity
 		*/
 		virtual double GetVelocityY(void)=0;
 	};
