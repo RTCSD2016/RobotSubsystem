@@ -1,25 +1,28 @@
 #pragma once
-#ifndef ROBIT_SUB_SYSTEM_ROBIT_H
-#define ROBIT_SUB_SYSTEM_ROBOT_H
+
+#ifndef ROBITSYSTEM_ROBITCOMMAND_H
+#define ROBITSYSTEM_ROBOTCOMMAND_H
+
 #include"RobotSystem.h"
 namespace IceHockeyGame{
 	namespace RobotSubSystem{
 		class RobotCommand :public RobotSystem
 		{
-		private:
+		protected:
 			double targ_position_x; //目标点的x坐标
 			double targ_position_y; //目标点的y坐标
 			double targ_velocity_x; //目标点的x方向速度
 			double targ_velocity_y; //目标点的y方向速度
 			double targ_time;       //到达目标点所需时间
+
 		public:
 			RobotCommand();
 
-			~RobotCommand();
+			
 
-			void InitPosition(double x , double y);
+			~RobotCommand(){}
 
-			void InitVelocity(double x , double y);
+			virtual void InitTrajectoryPlan(double tpx, double tpy, double tvx, double tvy, double tt)=0;
 
 			/**
 			*@set the target position
@@ -38,4 +41,4 @@ namespace IceHockeyGame{
 
 	}
 }
-#endif //ROBIT_SUB_SYSTEM_ROBOT_H
+#endif //ROBITSYSTEM_ROBOTCOMMAND_H

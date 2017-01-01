@@ -1,6 +1,8 @@
 #pragma once
-#ifndef ROBIT_SUB_SYSTEM_H
-#define ROBOT_SUB_SYSTEM_H
+#ifndef ROBITSYSTEM_H
+#define ROBOTSYSTEM_H
+
+
 namespace IceHockeyGame
 {
 	class RobotSystem
@@ -11,22 +13,18 @@ namespace IceHockeyGame
 		double position_y;             //机械手y坐标
 		double velocity_x;             //机械手x方向速度
 		double velocity_y;             //机械手y方向速度
-	
+		bool Request;                  //是否接受指指令
+		bool Done;                     //是否已完成运动指令
+
 	public:
 
-		RobotSystem()
-		{
-			this->position_x = 0;
-			this->position_y = 0;
-			this->velocity_x = 0;
-			this->velocity_y = 0;
-		}
+		RobotSystem(){}
 		
-		virtual~RobotSystem();
+		~RobotSystem(){}
 
-		virtual void InitPosition(double x, double y);
+		/*virtual void InitPosition(double x, double y);
 
-		virtual void InitVelocity(double x, double y);
+		virtual void InitVelocity(double x, double y);*/
 		/**
 		*@return robot hand position
 		*/
@@ -45,4 +43,4 @@ namespace IceHockeyGame
 		virtual double GetVelocityY(void)=0;
 	};
 }
-#endif //ROBOT_SUB_SYSTEM_H
+#endif //ROBOTSYSTEM_H
