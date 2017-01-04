@@ -52,7 +52,7 @@ double TrajectoryPlan::GetVelocityY(void)
 }
 
 
-void TrajectoryPlan::Planning(void)
+void TrajectoryPlan::Planning(void)//规划轨迹，算出速度加速度与对应时间
 {
 	if (Request)
 	{
@@ -76,72 +76,72 @@ void TrajectoryPlan::Planning(void)
 
 void TrajectoryPlan::LinearInterpolation()
 {
-	double Velocity_new_X, Velocity_new_Y;
-	double Position_new_X, Position_new_Y;
-	long Timer = 0;
-	double Position_flag_x, Position_flag_y = 0;
+	double Velocity_new_X, Velocity_new_Y;                         //实时速度
+	double Position_new_X, Position_new_Y;                         //实时位移
+	long Timer = 0;                                                //实时时间
 
 	while (Request)
 	{
-		while (Acceleration_time_x - (Timer / 1000.0) + 0.0001 > 0)
+		if(Acceleration_time_x-(Timer/1000.0)>=0.001)      //X方向匀加速阶段，
 		{
-			Velocity_new_X = (Timer / 1000.0)*ActualAccelerration_x;
-			Position_new_X = 0.5*ActualAccelerration_x*(Timer / 1000.0)*(Timer / 1000.0);
-			std::cout << "when t= " << Timer << " ms,Velocity_X= " << Velocity_new_X << " mm/s,Position_X= " << Position_new_X<<" mm\n";
+			Velocity_new_X = (Timer/1000.0)*ActualAccelerration_x;
+			Position_new_X = 0.5*ActualAccelerration_x*(Timer/1000.0)*(Timer/1000.0);
+			std::cout<<"when t= "<<Timer<<" ms,Velocity_X= "<<Velocity_new_X<<" mm/s,Position_X= "<<Position_new_X<<" mm\n";
 			//再输出Y
-			if (Acceleration_time_y - (Timer / 1000.0) + 0.0001 > 0)
+			if ((Acceleration_time_y-(Timer/1000.0))>=0.001)//Y方向匀加速阶段
 			{
-				Velocity_new_Y = (Timer / 1000.0)*ActualAccelerration_y;
-				Position_new_Y = 0.5*ActualAccelerration_y*(Timer / 1000.0)*(Timer / 1000.0);
-				std::cout << "when t= " << Timer << " ms,Velocity_Y= " << Velocity_new_Y << " mm/s,Position_Y= " << Position_new_Y << " mm\n";
-				std::cout << "next cycle: \n";
+				Velocity_new_Y = (Timer/1000.0)*ActualAccelerration_y;
+				Position_new_Y = 0.5*ActualAccelerration_y*(Timer/1000.0)*(Timer/1000.0);
+				std::cout<<"when t= "<<Timer<<" ms,Velocity_Y= "<<Velocity_new_Y<<" mm/s,Position_Y= "<<Position_new_Y<<" mm\n";
+				std::cout<<"next cycle: \n";
 			}
-			if (abs(Acceleration_time_y - (Timer / 1000.0)) < 0.0005)
+			if (((Acceleration_time_y+Uniform_motion_time_y-(Timer/1000.0))>=0)&&((Acceleration_time_y-(Timer/1000.0))<=0.001))
 			{
-				Position_flag_y = Position_new_Y;
-			}
-			if (((Acceleration_time_y + Uniform_motion_time_y) - (Timer / 1000.0) + 0.0001 > 0) && (Acceleration_time_y - (Timer / 1000.0) + 0.0001 < 0))
-			{
-				Velocity_new_Y = Velocity_new_Y;
-				Position_new_Y = Position_flag_y + Velocity_new_Y*((Timer / 1000.0) - Acceleration_time_y);
+				Velocity_new_Y = Acceleration_time_y*ActualAccelerration_y;
+				Position_new_Y = 0.5*ActualAccelerration_y*Acceleration_time_y*Acceleration_time_y+Velocity_new_Y * ((Timer / 1000.0) - Acceleration_time_y);
 				std::cout << "when t= " << Timer << " ms,Velocity_Y= " << Velocity_new_Y << " mm/s,Position_Y= " << Position_new_Y << " mm\n";
 				std::cout << "next cycle: \n";
 			}
 
-			Timer++;
+			
 		}
-		Position_flag_x = Position_new_X;
-		while ((Acceleration_time_x + Uniform_motion_time_x) - (Timer / 1000.0) + 0.0001 > 0)
+		if (((Acceleration_time_x+Uniform_motion_time_x-(Timer/1000.0))>=0)&&(Acceleration_time_x-(Timer/1000.0))<=0.0001)//X方向匀速阶段
 		{
-			Velocity_new_X = Velocity_new_X;
-			Position_new_X = Position_flag_x + Velocity_new_X*((Timer / 1000.0) - Acceleration_time_x);
+			Velocity_new_X = Acceleration_time_x*ActualAccelerration_x;;
+			Position_new_X = 0.5*ActualAccelerration_x*Acceleration_time_x*Acceleration_time_x+Velocity_new_X*((Timer / 1000.0) - Acceleration_time_x);
 			std::cout << "when t= " << Timer << " ms,Velocity_X= " << Velocity_new_X << " mm/s,Position_X= " << Position_new_X << " mm\n";
 			//再输出Y
-			if (Acceleration_time_y - (Timer / 1000.0) + 0.0001 > 0)
+			if ((Acceleration_time_y-(Timer/1000.0))>= 0.001)//Y方向匀加速阶段
 			{
-				Velocity_new_Y = (Timer / 1000.0)*ActualAccelerration_y;
-				Position_new_Y = 0.5*ActualAccelerration_y*(Timer / 1000.0)*(Timer / 1000.0);
+				Velocity_new_Y = (Timer / 1000.0) * ActualAccelerration_y;
+				Position_new_Y = 0.5*ActualAccelerration_y * (Timer / 1000.0)*(Timer / 1000.0);
 				std::cout << "when t= " << Timer << " ms,Velocity_Y= " << Velocity_new_Y << " mm/s,Position_Y= " << Position_new_Y << " mm\n";
 				std::cout << "next cycle: \n";
 			}
-			if (abs(Acceleration_time_y - (Timer / 1000.0)) < 0.0001)
+			if (((Acceleration_time_y + Uniform_motion_time_y - (Timer / 1000.0) + 0.001)> 0) && ((Acceleration_time_y - (Timer / 1000.0)) <= 0.001))
 			{
-				Position_flag_y = Position_new_Y;
-			}
-			if (((Acceleration_time_y + Uniform_motion_time_y) - (Timer / 1000.0) + 0.0001 > 0) && (Acceleration_time_y - (Timer / 1000.0) + 0.0001 < 0))
-			{
-				Velocity_new_Y = Velocity_new_Y;
-				Position_new_Y = Position_flag_y + Velocity_new_Y*((Timer / 1000.0) - Acceleration_time_y);
+				Velocity_new_Y = Acceleration_time_y*ActualAccelerration_y;
+				Position_new_Y = 0.5*ActualAccelerration_y*Acceleration_time_y*Acceleration_time_y+Velocity_new_Y*((Timer / 1000.0) - Acceleration_time_y);
 				std::cout << "when t= " << Timer << " ms,Velocity_Y= " << Velocity_new_Y << " mm/s,Position_Y= " << Position_new_Y << " mm\n";
 				std::cout << "next cycle: \n";
 			}
-			Timer++;
+			
 		}
-		if (Timer  == targ_time )
+		if (Timer>=targ_time )
 		{
 	        Request = false;
 			Done = true;
 			position_x = targ_position_x;
+			position_y = targ_position_y;
+			velocity_y = targ_velocity_x;
+			velocity_y = targ_velocity_y;
+
 		}
+		Timer++;
+
+	}
+	while(!Request)
+	{
+		
 	}
 }
