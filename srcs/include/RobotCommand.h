@@ -22,7 +22,7 @@ namespace IceHockeyGame{
 
 			~RobotCommand(){}
 
-			virtual void InitTrajectoryPlan(double tpx, double tpy, double tvx, double tvy, double tt)=0;
+			virtual void InitTrajectoryPlan(double tpx, double tpy, double tvx, double tvy, double tt,double dx,double dy)=0;
 
 			/**
 			*@set the target position
