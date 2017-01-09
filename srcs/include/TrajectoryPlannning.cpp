@@ -99,6 +99,8 @@ void TrajectoryPlan::LinearInterpolation()
 	double vy = velocity_y;
 	double px = position_x;
 	double py = position_y;
+	
+
 	while (Request)
 	{
 		if(Acceleration_time_x-(Timer/1000.0)>0.001)      //X方向匀加速阶段，
@@ -216,9 +218,12 @@ void TrajectoryPlan::LinearInterpolation()
 		position_y = Position_new_Y;
 		velocity_y = Velocity_new_X;
 		velocity_y = Velocity_new_X;
+		
 
-	}
-	while(!Request)
+		}
+
+	
+	while (!Request)
 	{
 		
 	}

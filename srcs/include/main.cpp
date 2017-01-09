@@ -1,4 +1,3 @@
-
 #include<iostream>
 #include"RobotSystem.h"
 #include"RobotCommand.h"
@@ -14,9 +13,40 @@ using namespace Robot;
 
 void main(void)
 {
+	double x, y,vx,vy,t;
+	char i;
 	TrajectoryPlan RobotHand(0, 0, 0, 0, true, false);
-	RobotHand.InitTrajectoryPlan(300, 400, 900, 1200, 500, 50, 50);
-	RobotHand.Planning();
-	RobotHand.LinearInterpolation();
+	RobotHand.InitTrajectoryPlan(300, 400, 900, 1000, 500, 200, 200);
+    i = std::cin.get();
+	while (1)
+	{
+		if (i == '\n')
+		{
+			std::cout << "输入目标位置参数\n:";
+			std::cout << "targ_position_x=";
+			std::cin >> x;
+			std::cout << "targ_position_y=";
+			std::cin >> y;
+			std::cout << "输入目标速度参数\n:";
+			std::cout << "targ_velocity_x=";
+			std::cin >> vx;
+			std::cout << "targ_velocity_y=";
+			std::cin >> vy;
+			std::cout << "输入到达目标位置时间\n:";
+			std::cout << "targ_time=";
+			std::cin >> t;
+			RobotHand.SetPosition(x, y);
+			RobotHand.SetVelocity(vx, vy);
+			RobotHand.SetTime(t);
+			RobotHand.Planning();
+			RobotHand.LinearInterpolation();
+
+		}
+
+
+	}
+	
+	
+	
 	
 }
