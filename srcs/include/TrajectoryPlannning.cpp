@@ -2,10 +2,19 @@
 #include"RobotCommand.h"
 #include"TrajectoryPlanning.h"
 #include<iostream>
+#include<cmath>
+
+#include <signal.h>
+#include <unistd.h>
+#include <sys/mman.h>
+
+#include <native/task.h>
+#include <native/timer.h>
 
 using namespace IceHockeyGame;
 using namespace RobotSubSystem;
 using namespace Robot;
+using namespace std;
 
 TrajectoryPlan::TrajectoryPlan(){
 	Acceleration_time_x = 0;
@@ -100,9 +109,14 @@ void TrajectoryPlan::LinearInterpolation()
 	double px = position_x;
 	double py = position_y;
 	
+    bool flag; 
+    RTIME time_start,time_now;
 
 	while (Request)
 	{
+		flag = true;
+	    time_start = rt_timer_read();
+		
 		if(Acceleration_time_x-(Timer/1000.0)>0.001)      //X方向匀加速阶段，
 		{
 			Velocity_new_X = (Timer/1000.0)*ActualAccelerration_x+vx;
@@ -212,7 +226,14 @@ void TrajectoryPlan::LinearInterpolation()
 			}
 			
 		}
-		
+	
+	//延时1ms
+
+    while(flag){
+		time_now = rt_timer_read();
+        if((long)(time_now - time_start) / 1000000 >=1000)
+        flag = false;
+        }
 		Timer++;
 		position_x = Position_new_X;
 		position_y = Position_new_Y;

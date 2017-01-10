@@ -11,7 +11,7 @@ using namespace Robot;
 
 
 
-void main(void)
+int main(void)
 {
 	double x, y,vx,vy,t;
 	char i;
@@ -46,7 +46,7 @@ void main(void)
 
 	}
 	
-	
+	return 0;
 	
 	
 }
