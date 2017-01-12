@@ -16,6 +16,7 @@
 
     ./main
 6. 程序运行，先按“`Enter`”键，然后根据提示依次输入目标位置参数targ_position_x，targ_position_y，targ_velocity_x，targ_velocity_y，targ_time的值，如输入300，400，1000，1000，500这组值，按Enter继续运行，则可看到轨迹输出。
+
 #三、成员贡献
 -欧梓峰
 -盛玉庭
